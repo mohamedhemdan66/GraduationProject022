@@ -1,0 +1,116 @@
+﻿@model GraduationProject022.Models.Profile
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<style>
+@@media print {
+    /* Hide every other element */
+    body{
+        visibility: hidden;
+    }
+
+    /* Then display print container elements */
+    .print-container, .print-container * {
+        visibility: visible;
+    }
+
+}
+</style>
+
+
+<h1 class="text-primary my-3">  التفاصيل </h1>
+<hr />
+<div class="  row">
+    <dl class="print-container row col-md-6 ">
+        <dt class = "col-sm-4">
+            الاسم بالكامل :
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <dt class = "col-sm-4">
+             البريد الالكتروني :
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-4">
+            المؤهل الدراسي :
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Qualification)
+        </dd>
+        <dt class = "col-sm-4">
+            العنوان :
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class = "col-sm-4">
+           رقم الهاتف :
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.PhoneNo)
+        </dd>
+        <dt class = "col-sm-4">
+          الرقم القومي :
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NationalNo)
+        </dd>
+        <dt class = "col-sm-4">
+          تاريخ الميلاد :
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+        <dt class = "col-sm-4">
+            لقاح كرونا
+        </dt>
+        <dd class = "col-sm-8">
+            @(Model.IsVaccine ? "محصن" : "غير محصن ")
+        </dd>
+    </dl>
+
+    <div class="print-container col-md-6 ">
+        <div class="row">
+                <div class="col-md-6">
+            @if (Model?.ProfilePicture != null)
+            {
+            <img id="profilePicture" alt="profile" class="profile-picture"
+                src="data:image/*;base64,@(Convert.ToBase64String(Model?.ProfilePicture))" />
+            }
+            else
+            {
+            <img id="profilePicture" alt="profile" class="profile-picture" src="~/images/avatar-male.jpg" />
+            }
+        </div>
+        <div class="col-md-1"></div>
+        <div class=" col-md-5">
+            @if(@ViewBag.QRCode != null)
+            {
+            <img src="@ViewBag.QRCode" width="200" height="200" alt="QR Code" />
+            }
+        </div>
+        </div>
+    </div>
+</div>
+
+<dl class="row print-container">
+         <dt class="col-md-2">
+            المعلومات الاضافية :
+        </dt>
+        <dd class="col-md-10  my-2" style="white-space: pre-line;">
+            @Html.DisplayFor(model => model.ExtraInfo)
+        </dd>
+</dl>
+
+<div> 
+    <button onclick="window.print();" class="btn btn-success ">طباعة </button>
+    <a asp-action="Edit" asp-route-id="@Model.Id"class="btn btn-primary mx-2" >تعديل</a> 
+    <a asp-action="Index" class="btn btn-outline-secondary ">الرجوع الي الرئسية</a>
+</div>
+
+

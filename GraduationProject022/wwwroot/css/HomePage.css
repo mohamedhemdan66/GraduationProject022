@@ -1,0 +1,118 @@
+
+.bg-img{
+  height: 100vh;
+  background:no-repeat center fixed;
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+
+.overley{
+  position: absolute;
+  top: 0; 
+  bottom: 0; 
+  left: 0; 
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.carousel-caption{
+  top: 30%;
+}
+
+.carousel-caption h2{
+  font-size: 55px; 
+  letter-spacing: 2px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-family:merienda;
+}
+    .carousel-caption h2 span {
+        color: #edbb00 !important;
+        /*color: #007bff !important;*/
+    }
+.carousel-caption p{
+  font-size: 22px; 
+  margin-bottom: 30px;
+  font-family: poppins;
+  color: #dddddd;
+}
+
+.navbar-brand {
+  color: white !important;
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+    .navbar-brand span {
+        color: #edbb00 !important;
+        /*color: #007bff !important;*/
+    }
+
+ .nav-link {
+  color: white !important;
+  font-family: poppins;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 20px;
+}
+    .nav-link:hover {
+        color: #edbb00 !important;
+        /*color: #007bff !important;*/
+    }
+.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
+    /*color: #edbb00 !important;*/
+    color: #007bff !important;
+}
+.btn-warning {
+    color: #fff;
+    background-color: #edbb00 !important;
+    /*background-color: #007bff !important;*/
+    font-size: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+}
+.btn-warning:hover {
+  color: #fff;
+}
+
+.carousel-indicators li {
+  width: 27px;
+  height: 12px;
+  margin-right: 5px;
+  margin-left: 5px;
+  border: none; 
+  border-radius: 50%;
+}
+.carousel-indicators .active {
+    background-color: #edbb00 !important;
+    /*background-color: #007bff !important;*/
+}
+
+
+@media (max-width: 544px) {  
+  .navbar-nav{
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+  }
+    .navbar-toggler {
+        background-color: #edbb00 !important;
+        /*background-color: #007bff !important;*/
+        padding: 1px 8px;
+        font-size: 20px;
+    }
+  .carousel-caption h2{ 
+    font-size: 25px; 
+  }
+  .carousel-caption p{
+    font-size: 15px; 
+  }
+  .navbar-brand{
+    font-size: 17px;
+  }
+  .btn-warning{
+    font-size: 15px;
+    padding: 7px 15px;
+  }
+}
+

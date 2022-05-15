@@ -1,0 +1,144 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Home Page";
+}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS only -->
+  <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.5.3/css/bootstrap.min.css" integrity="sha384-JvExCACAZcHNJEc7156QaHXTnQL3hQBixvj5RV5buE7vgnNEzzskDtx9NQ4p6BJe" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="~/css/HomePage.css">
+      <style>
+  @@import url(https://fonts.googleapis.com/css?family=Tajawal);
+  html {
+  scroll-behavior: smooth;
+  }
+  body{
+    direction : rtl;
+   font-family:'tajawal'!important;
+   }  
+    </style>
+  <!-- JS, Popper.js, and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body style="min-height:1200px;">
+
+  <header id="header">
+             <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+                <div class="container">
+                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> <img src="~/Images/logo.png" style="position:absolute;top:5px;right:21px;width:85px;"/> </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Index">الرئسية</a>
+                            </li>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="Profiles" asp-action="Index">ادارة الحسابات </a>
+                            </li>    
+                            }
+                        </ul>
+                         <partial name="_LoginPartial" />
+                    </div>
+                </div>
+            </nav>
+
+       <div id="my-carousel" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target="#my-carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#my-carousel" data-slide-to="1"></li>
+              </ol>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <div class="bg-img" style="background-image: url(images/IMG-4849.jpg);"></div>
+                  <div class="overley">
+                    <div class="carousel-caption ">
+                      <h2 class="animate__animated animate__bounceInLeft animate__delay-1s">  <span>مرحباً بكم  </span> </h2>
+                      <p class="animate__animated animate__bounceInRight animate__delay-2s" style="font-size: 34px;">دفعة 2022 حاسب آلي - كلية تربية نوعية - جامعة كفر الشيخ</p>
+                      <a class="btn btn-warning animate__animated animate__bounceInLeft animate__delay-3s" href="#ReadMore">قراءة المزيد</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="bg-img" style="background-image: url(images/university.jpg);"></div>
+                  <div class="overley">
+                    <div class="carousel-caption ">
+
+                      <h2 class="animate__animated animate__zoomIn animate__delay-1s"> <span>موقع   QR.CV  </span></h2>
+                      <p class="animate__animated animate__fadeInLeft animate__delay-2s" style="font-size: 30px;"> يتيح الموقع امكانية إنشاء سيرة ذاتية إلكترونية  وذلك من خلال تسجيل بعض البيانات المطلوبة واضافة كافة التفاصيل المرغوبة ثم انشاء باركود - QR - خاص بك .</p>
+                      <a class="btn btn-warning animate__animated animate__bounceInLeft animate__delay-3s" href="#ReadMore">قراءة المزيد</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#my-carousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon d-none d-md-block" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#my-carousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon d-none d-md-block" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+       </div>
+  </header>
+
+
+<section >
+<div id="ReadMore" style="padding-top:120px;padding-bottom:38px" class="row ">
+    <div class=" col-md-6 ">
+        <h2 class="ml-4" style="font-size: 33px;font-weight: bolder;color: #e5b400;">رؤية الكلية - Vision</h2>
+        <p class="ml-4" style="font-size: 20px;">تتطلع الكلية للوصول الى مستوى تعليمي وبحثي ومجتمعي متميز محليًا وإقليميًا ويتيمز بالإبتكار والإبداع محليًا وإقليميًا ودوليًا .</p>
+    </div>
+
+        <div class="col-md-6 ">
+        <h2  style="font-size: 33px;font-weight: bolder;color: #e5b400;">رسالة الكلية - Mission </h2>
+        <p  style="font-size: 20px;"> تسعى كلية التربية النوعية جامعة كفر الشيخ الى إعداد معلم وأخصائي في التخصصات النوعية مؤهلًا تربويًا وأكاديميًا قادرًا على إتباع منهج علمي بحثي صحيح . 
+وتقديم الإستشارات البحثية والخدمات المجتمعية للبيئة المحيطة في ضوء إحتياجات سوق العمل .</p>
+    </div>
+</div>
+
+    <hr>
+<div class="row mt-5" >
+    <div class=" col-md-6 ">
+        <h5 class="ml-4"> مدير وحدة ضمان الجودة : د/ شيماء عز العرب سرور . </h5>
+    </div>
+
+        <div class="col-md-6 ">
+        <h5>عميد الكلية : أ.د / أماني محمد شاكر . </h5>
+    </div>
+</div>
+</section>
+
+
+  <script>
+    $(window).scroll(function () {
+      var v = $(this).scrollTop();
+      if (v >= 1) {
+        $("header nav ").css("background-color","#000");
+      } else {
+        $("header nav").css("background-color","transparent");
+      }
+
+    });
+
+  </script>
+</body>
+
+
+
+
+

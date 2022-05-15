@@ -1,0 +1,142 @@
+﻿@model IEnumerable<GraduationProject022.Models.Profile>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<link href="~/lib/datatables/css/dataTables.bootstrap4.css" rel="stylesheet"/>
+<style>
+    div.dataTables_wrapper {
+            direction: rtl;
+        }
+        .dataTables_info, .dataTables_length{
+      float: right;
+}
+#files_list_paginate,.dataTables_filter{
+  float: left;
+}
+th,td {text-align: right; direction: rtl;}
+</style>
+
+
+<div class="row ">
+    <div class="col-md-6">
+        <h2 class="text-primary ">الحسابات</h2>
+        </div>
+    <div class="col-md-6 d-flex justify-content-end">
+        <a asp-action="Create" class="btn btn-primary mb-2"> اضافة <i class="fa-solid fa-plus"></i>  </a>
+    </div>
+</div>
+<hr />
+
+
+<table id="myTable" class="table table-hover" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                الصورة
+            </th>
+            <th>
+                الاسم بالكامل
+            </th>
+            <th>
+                البريد الالكتروني
+            </th>
+            <th>
+                المؤهل
+            </th>
+            <th>
+                رقم الهاتف
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr class="my-row">
+            <td class="p-1">
+                <div class="d-flex justify-content-center" >
+                    @if(item?.ProfilePicture != null)
+                    {
+                        <img  class="avatar rounded-circle" src="data:image/*;base64,@(Convert.ToBase64String(item.ProfilePicture))">
+                    }
+                    else
+                    {
+                        <img class="avatar rounded-circle" src="~/Images/avatar-male.jpg">
+                    
+                    }
+                </div>
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qualification)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNo)
+            </td>
+            <td >
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">  <i class="fa-solid fa-pen-to-square fa-lg"></i> </a>    
+                <a asp-action="Details"  asp-route-id="@item.Id" class="btn btn-success mx-1">  <i class="fa-solid fa-eye fa-lg"></i> </a> 
+                <a href="javascript:;" data-id="@item.Id" class="btn btn-danger js-delete">  <i class="fa-solid fa-trash-can fa-lg"></i> </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+@section Scripts {
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready( function () {
+            $('#myTable').DataTable( {
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/ar.json"
+                }
+            });
+
+             $('.js-delete').on('click', function () {
+                var btn = $(this);
+                bootbox.confirm({
+                    message: "هل تريد حقا حذف هذا الحساب ؟",
+                    locale: 'ar',
+                    buttons: {
+                        confirm: {
+                            label: 'حذف',
+                            className: 'btn-danger mx-2'
+                        },
+                        cancel: {
+                            label: 'الغاء',
+                            className: 'btn-outline-secondary'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: '/profiles/delete/' + btn.data('id'),
+                                success: function () {
+                                    btn.parents('.my-row').hide();
+                                    toastr.success('تم الحذف بنجاح');
+                                },
+                                error: function () {
+                                    toastr.error('!حدث خطأ ما');
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+
+        } );
+    </script>
+}
+
+
+
+

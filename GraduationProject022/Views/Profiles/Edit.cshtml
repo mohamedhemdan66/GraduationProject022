@@ -1,0 +1,94 @@
+﻿@model GraduationProject022.Models.Profile
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 class="text-primary my-3"> تعديل الحساب </h1>
+<hr />
+<form asp-action="Edit" enctype="multipart/form-data">
+    <div class="row  mt-5">
+        <div class="col-md-6">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="FullName" class="control-label"> الاسم بالكامل :</label>
+                    <input asp-for="FullName" class="form-control" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label">البريد الالكتروني :</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Qualification" class="control-label">المؤهل الدراسي :</label>
+                    <input asp-for="Qualification" class="form-control" />
+                    <span asp-validation-for="Qualification" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label">العنوان :</label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNo" class="control-label">رقم الهاتف :</label>
+                    <input asp-for="PhoneNo" class="form-control" type="number"/>
+                    <span asp-validation-for="PhoneNo" class="text-danger"></span>
+                </div>
+               <div class="form-group">
+                    <label asp-for="NationalNo" class="control-label">الرقم القومي :</label>
+                    <input asp-for="NationalNo" class="form-control" type="number"/>
+                    <span asp-validation-for="NationalNo" class="text-danger"></span>
+                </div>
+               <div class="row">
+                    <div class="form-group col-7">
+                        <label asp-for="Age" class="control-label"> تاريخ الميلاد :</label>
+                        <input asp-for="Age" class="form-control d-inline-block " style="width: 65%!important;"/>
+                        <span asp-validation-for="Age" class="text-danger"></span>
+                   </div>
+                   <div class="form-group form-check col-4 mt-2 d-flex justify-content-end">
+                     <label class="form-check-label"> هل اخذت جرعت كرونا </label>
+                     <input class="form-check-input" asp-for="IsVaccine" /> 
+                   </div>
+                   <div class="col-1"></div>
+              </div>
+
+        </div>
+        <div class="col-md-4 offset-md-1">
+                <div class="form-group">
+                    <label asp-for="ProfilePicture" class="w-100">الصورة الشخصية</label>
+                    @if (Model?.ProfilePicture != null)
+                    {
+                        <img id="profilePicture" alt="profile" class="profile-picture" src="data:image/*;base64,@(Convert.ToBase64String(Model?.ProfilePicture))" />
+                    }
+                    else
+                    {
+                        <img id="profilePicture" alt="profile" class="profile-picture" src="~/images/avatar-male.jpg" />
+                    }
+                    <div class="custom-file mt-2">
+                        <input type="file" asp-for="ProfilePicture" class="custom-file-input" accept=".jpg,.png" 
+                                onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0])" />
+                        <label class="custom-file-label" asp-for="ProfilePicture">اضافة صورة شخصيه</label>
+                        <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="row  mt-3">
+           <div class="col-md-10">
+                <div class="form-group">
+                     <textarea class="form-control" rows="6" asp-for="ExtraInfo" placeholder="معلومات اضافية ...." ></textarea>
+                    <span asp-validation-for="ExtraInfo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="حفظ" class="btn btn-primary" />
+                     <a asp-action="Index" class="btn btn-outline-secondary"> الغاء</a>
+                </div>
+           </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
