@@ -55,32 +55,25 @@
             @Html.DisplayFor(model => model.PhoneNo)
         </dd>
         <dt class = "col-sm-4">
-          الرقم القومي :
-        </dt>
-        <dd class = "col-sm-8">
-            @Html.DisplayFor(model => model.NationalNo)
-        </dd>
-        <dt class = "col-sm-4">
           تاريخ الميلاد :
         </dt>
         <dd class = "col-sm-8">
             @Html.DisplayFor(model => model.Age)
         </dd>
         <dt class = "col-sm-4">
-            لقاح كرونا
+            لقاح كورونا
         </dt>
         <dd class = "col-sm-8">
-            @(Model.IsVaccine ? "محصن" : "غير محصن ")
+            @(Model.IsVaccine ? "محصن" : "غير محصن")
         </dd>
     </dl>
 
     <div class="print-container col-md-6 ">
         <div class="row">
                 <div class="col-md-6">
-            @if (Model?.ProfilePicture != null)
+            @if (Model?.ProfilePictureUrl != null)
             {
-            <img id="profilePicture" alt="profile" class="profile-picture"
-                src="data:image/*;base64,@(Convert.ToBase64String(Model?.ProfilePicture))" />
+               <img id="profilePicture" alt="profile" class="profile-picture" src="~/Images/@Model.ProfilePictureUrl" />
             }
             else
             {

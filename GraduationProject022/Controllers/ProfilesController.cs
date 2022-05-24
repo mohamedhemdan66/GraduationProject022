@@ -13,6 +13,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using NToastNotify;
 using Microsoft.AspNetCore.Authorization;
+using FileSharingApp.BL.Helper;
 
 namespace GraduationProject022.Controllers
 {
@@ -31,7 +32,7 @@ namespace GraduationProject022.Controllers
         // GET: Profiles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Profile.ToListAsync());
+            return View(await _context.Profile.OrderByDescending(p=>p.Id).ToListAsync());
         }
 
         // GET: Profiles/Details/5
@@ -46,7 +47,7 @@ namespace GraduationProject022.Controllers
             if (profile == null)
                 return NotFound();
 
-            string content = $"الاسم بالكامل :\n\t\t{profile.FullName}\nالبريد الالكتروني :\n\t\t{profile.Email}\nالمؤهل الدراسي :\n\t\t{profile.Qualification}\nرقم الهاتف : {profile.PhoneNo}\nالرقم القومي : {profile.NationalNo}\nتاريخ الميلاد : {profile.Age}\nلقاح كرونا : {(profile.IsVaccine ? "محصن" : "غير محصن")}\nالعنوان :\n\t\t{profile.Address}.";//\nمعلومات اضافية :\n\t\t\t{profile.ExtraInfo}
+            string content = $"الاسم بالكامل :\n\t\t{profile.FullName}\nالبريد الالكتروني :\n\t\t{profile.Email}\nالمؤهل الدراسي :\n\t\t{profile.Qualification}\nالعنوان :\n\t\t{profile.Address}\nرقم الهاتف : {profile.PhoneNo}\nتاريخ الميلاد : {profile.Age.ToString("yyyy-MM-dd")}\nلقاح كورونا : {(profile.IsVaccine ? "محصن" : "غير محصن")}\nلينك الصورة الشخصية : \n http://qrc0dee-001-site1.ctempurl.com/Images/{profile.ProfilePictureUrl}";
             using (MemoryStream ms = new MemoryStream())
             {
                 QRCodeGenerator qRCodeGenerator = new QRCodeGenerator();
@@ -69,18 +70,17 @@ namespace GraduationProject022.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FullName,Email,Qualification,Address,PhoneNo,NationalNo,ExtraInfo,Age,IsVaccine,ProfilePicture")] Profile profile)
+        public async Task<IActionResult> Create([Bind("Id,FullName,Email,Qualification,Address,PhoneNo,ExtraInfo,Age,IsVaccine,ProfilePicture")] Profile profile)
         {
             ValidationDublicate(profile);
 
             if (ModelState.IsValid)
             {
-                if (Request.Form.Files.Count > 0)
+                if (profile.ProfilePicture != null)
                 {
-                    var file = Request.Form.Files.FirstOrDefault();
-                    using var dataStream = new MemoryStream();
-                    await file.CopyToAsync(dataStream);
-                    profile.ProfilePicture = dataStream.ToArray();
+                    string res = await FilesHelper.UploadFile(profile.ProfilePicture, "Images");
+                    if (!string.IsNullOrEmpty(res))
+                        profile.ProfilePictureUrl = res;
                 }
                 _context.Add(profile);
                 await _context.SaveChangesAsync();
@@ -109,7 +109,7 @@ namespace GraduationProject022.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,Email,Qualification,Address,PhoneNo,NationalNo,ExtraInfo,Age,IsVaccine,ProfilePicture")] Profile profile)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,Email,Qualification,Address,PhoneNo,ExtraInfo,Age,IsVaccine,ProfilePicture")] Profile profile)
         {
             if (id != profile.Id)
                 return NotFound();
@@ -120,18 +120,17 @@ namespace GraduationProject022.Controllers
             {
                 try
                 {
-                    if (Request.Form.Files.Count > 0)
+                    var entity = await _context.Profile.AsNoTracking().FirstOrDefaultAsync(a => a.Id == profile.Id);
+                    if (profile.ProfilePicture != null)
                     {
-                        var file = Request.Form.Files.FirstOrDefault();
-                        using var dataStream = new MemoryStream();
-                        await file.CopyToAsync(dataStream);
-                        profile.ProfilePicture = dataStream.ToArray();
+                        FilesHelper.RemoveFile(entity.ProfilePictureUrl, "Images");
+                        string res = await FilesHelper.UploadFile(profile.ProfilePicture, "Images");
+                        if (!string.IsNullOrEmpty(res))
+                            profile.ProfilePictureUrl = res;
                     }
                     else
-                    {
-                        var entity = await _context.Profile.AsNoTracking().FirstOrDefaultAsync(a => a.Id == profile.Id);
-                        profile.ProfilePicture = entity.ProfilePicture;
-                    }
+                        profile.ProfilePictureUrl = entity.ProfilePictureUrl;
+                    
                     _context.Update(profile);
                     await _context.SaveChangesAsync();
                 }
@@ -163,6 +162,7 @@ namespace GraduationProject022.Controllers
             if (profile == null)
                 return NotFound();
 
+            FilesHelper.RemoveFile(profile.ProfilePictureUrl, "Images");
             _context.Profile.Remove(profile);
             _context.SaveChanges();
             return Ok();
@@ -188,11 +188,6 @@ namespace GraduationProject022.Controllers
                     ModelState.TryAddModelError("PhoneNo", " رقم الهاتف هذا موجود بالفعل");
                     return View(profile);
                 }
-                else if (_context.Profile.Any(e => e.NationalNo == profile.NationalNo))
-                {
-                    ModelState.TryAddModelError("NationalNo", " هذا الرقم القومي موجود بالفعل");
-                    return View(profile);
-                }
             }
             else
             {
@@ -204,11 +199,6 @@ namespace GraduationProject022.Controllers
                 else if (_context.Profile.Any(e => e.PhoneNo == profile.PhoneNo && e.Id != profile.Id))
                 {
                     ModelState.TryAddModelError("PhoneNo", " رقم الهاتف هذا موجود بالفعل");
-                    return View(profile);
-                }
-                else if (_context.Profile.Any(e => e.NationalNo == profile.NationalNo && e.Id != profile.Id))
-                {
-                    ModelState.TryAddModelError("NationalNo", " هذا الرقم القومي موجود بالفعل");
                     return View(profile);
                 }
             }

@@ -25,9 +25,6 @@ namespace GraduationProject022.Models
         [Required(ErrorMessage = "هذا الحقل مطلوب"),MaxLength(11, ErrorMessage = "رقم الهاتف غير صحيح"), MinLength(11, ErrorMessage = "رقم الهاتف غير صحيح")]
         public string PhoneNo { get; set; }
 
-        [Required(ErrorMessage = "هذا الحقل مطلوب"), MaxLength(14, ErrorMessage = "الرقم القومي غير صحيح"), MinLength(14, ErrorMessage = "الرقم القومي غير صحيح")]
-        public string NationalNo { get; set; }
-
         public string ExtraInfo { get; set; }
 
         [Required(ErrorMessage = "هذا الحقل مطلوب")]
@@ -37,6 +34,9 @@ namespace GraduationProject022.Models
 
         public bool IsVaccine { get; set; }=false;  
 
-        public byte[] ProfilePicture { get; set; }
+        public string ProfilePictureUrl { get; set; }
+
+        [NotMapped]
+        public IFormFile ProfilePicture { get; set; }
     }
 }

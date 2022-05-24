@@ -35,11 +35,6 @@
                     <input asp-for="PhoneNo" class="form-control" type="number"/>
                     <span asp-validation-for="PhoneNo" class="text-danger"></span>
                 </div>
-               <div class="form-group">
-                    <label asp-for="NationalNo" class="control-label">الرقم القومي :</label>
-                    <input asp-for="NationalNo" class="form-control" type="number"/>
-                    <span asp-validation-for="NationalNo" class="text-danger"></span>
-                </div>
                <div class="row">
                     <div class="form-group col-7">
                         <label asp-for="Age" class="control-label"> تاريخ الميلاد :</label>
@@ -47,7 +42,7 @@
                         <span asp-validation-for="Age" class="text-danger"></span>
                    </div>
                    <div class="form-group form-check col-4 mt-2 d-flex justify-content-end">
-                     <label class="form-check-label"> هل اخذت جرعت كرونا </label>
+                     <label class="form-check-label"> هل اخذت جرعة كورونا </label>
                      <input class="form-check-input" asp-for="IsVaccine" /> 
                    </div>
                    <div class="col-1"></div>
@@ -56,9 +51,9 @@
         <div class="col-md-4 offset-md-1">
                 <div class="form-group">
                     <label asp-for="ProfilePicture" class="w-100">الصورة الشخصية</label>
-                    @if (Model?.ProfilePicture != null)
+                    @if (Model?.ProfilePictureUrl != null)
                     {
-                        <img id="profilePicture" alt="profile" class="profile-picture" src="data:image/*;base64,@(Convert.ToBase64String(Model?.ProfilePicture))" />
+                        <img id="profilePicture" alt="profile" class="profile-picture" src="~/Images/@Model.ProfilePictureUrl" />
                     }
                     else
                     {
